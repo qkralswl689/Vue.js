@@ -14,7 +14,7 @@
                 <div class="row g-5">
                     <div class="col-md-5 col-lg-4 order-md-last">
                         <h4 class="d-flex justify-content-between align-items-center mb-3"><span class="text-primary">구입
-                                목록</span><span class="badge bg-primary rounded-pill">3</span></h4>
+                                목록</span><span class="badge bg-primary rounded-pill">{{ state.items.length }}</span></h4>
                         <ul class="list-group mb-3">
                             <li class="list-group-item d-flex justify-content-between lh-sm"
                                 v-for="(i, idx) in state.items" :key="idx">
@@ -22,7 +22,7 @@
                                     <h6 class="my-0">{{ i.name }}</h6>
                                 </div><span class="text-muted"><span class="price">{{
                                     lib.getNumberFormatted(i.price -
-                                        i.price * i.discountPer / 100)
+                                        (i.price * i.discountPer / 100))
                                 }}원</span>
                                 </span>
                             </li>
@@ -80,7 +80,14 @@ import lib from '@/scripts/lib';
 export default {
     setup() {
         const state = reactive({
-            items: []
+            items: [],
+            form: {
+                name: "",
+                address: "",
+                payment: "",
+                cardNumber: "",
+                items: ""
+            }
         })
         const load = () => {
             axios.get("/api/cart/items").then(({ data }) => {
